@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import LearnlyNav from "@/components/LearnlyNav";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import { Lock, ChevronRight } from "lucide-react";
+import { Lock, ChevronRight, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -151,6 +151,45 @@ export default async function LearnHome() {
               </li>
             ))}
           </ul>
+
+          {/* ── Bring your own syllabus ── */}
+          <div className="my-10">
+            <p className="text-[10px] uppercase tracking-widest text-stone-700 mb-3 px-1">
+              Or
+            </p>
+            <Link
+              href="/upload"
+              id="byos-card"
+              className={cn(
+                "group relative flex items-center gap-5 rounded-2xl border border-amber-900/40",
+                "bg-amber-950/10 px-6 py-5 sm:px-7 sm:py-6",
+                "hover:border-amber-700/50 hover:bg-amber-950/20",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500",
+                "transition-colors duration-200",
+              )}
+              aria-label="Upload your own syllabus to build a personalized learning path"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-800/40 bg-amber-900/20">
+                <Upload size={16} className="text-amber-600" aria-hidden="true" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="text-xs font-bold tracking-wider text-amber-600">YOUR SYLLABUS</span>
+                </div>
+                <p className="text-base font-semibold text-stone-200 sm:text-lg leading-tight">
+                  Bring your own syllabus
+                </p>
+                <p className="mt-1 text-sm text-stone-600 leading-relaxed">
+                  Upload your syllabus and Learnly will build a learning path around what you need to learn.
+                </p>
+              </div>
+              <ChevronRight
+                size={18}
+                className="shrink-0 text-stone-700 transition-all duration-200 group-hover:text-amber-500 group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </Link>
+          </div>
 
           {/* Coming soon */}
           <div>
