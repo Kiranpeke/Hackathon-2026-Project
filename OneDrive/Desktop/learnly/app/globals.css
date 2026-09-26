@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Learnly Design System — Step 9.5
+   ============================================================
+   Warm editorial neutral foundation.
+   Semantic learning-state colors: gap / practicing / mastered.
+   Subtle, intentional motion language.
+   prefers-reduced-motion respected throughout.
+   ============================================================ */
+
+/* ── Custom properties ─────────────────────────────────────── */
+:root {
+  /* Warm stone palette */
+  --bg-base:     #0d0c0b;
+  --bg-surface:  #141210;
+  --bg-raised:   #1c1916;
+  --bg-hover:    #222018;
+
+  --border-subtle:  rgba(255,255,255,0.06);
+  --border-muted:   rgba(255,255,255,0.10);
+  --border-active:  rgba(245,158,11,0.35);
+
+  --text-primary:   #f0ebe4;
+  --text-secondary: #9a9186;
+  --text-muted:     #4a4540;
+
+  /* Amber accent */
+  --accent:        #d97706;
+  --accent-light:  #fbbf24;
+  --accent-dim:    rgba(217,119,6,0.15);
+
+  /* Learning state */
+  --gap:       #c45a4a;    /* muted coral */
+  --practicing:#c8892a;    /* warm ochre */
+  --mastered:  #4a8c6a;    /* muted green */
+
+  /* Motion */
+  --dur-fast:   120ms;
+  --dur-base:   220ms;
+  --dur-slow:   400ms;
+  --ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:   cubic-bezier(0.0, 0.0, 0.2, 1.0);
+}
+
+/* ── Reset & base ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Focus system ───────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
+
+/* ── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: rgba(217,119,6,0.25);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   Motion system
+   ============================================================ */
+
+/* Page entrance — fade + lift */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Subtle pulse for the hero node */
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.05); }
+}
+
+/* Flow line animation */
+@keyframes flowDown {
+  0%   { stroke-dashoffset: 60; opacity: 0; }
+  30%  { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0.6; }
+}
+
+/* ── Utility animation classes ────────────────────────────── */
+.animate-fade-up {
+  animation: fadeUp var(--dur-slow) var(--ease) both;
+}
+.animate-fade-in {
+  animation: fadeIn var(--dur-base) var(--ease) both;
+}
+.animate-scale-in {
+  animation: scaleIn var(--dur-base) var(--ease) both;
+}
+
+/* Staggered entrance delays */
+.delay-1 { animation-delay: 80ms; }
+.delay-2 { animation-delay: 160ms; }
+.delay-3 { animation-delay: 240ms; }
+.delay-4 { animation-delay: 320ms; }
+.delay-5 { animation-delay: 400ms; }
+
+/* ── Reduced motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ============================================================
+   Landing page specific
+   ============================================================ */
+
+/* Hero title — large editorial type treatment */
+.hero-title {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+/* Adaptive loop flow diagram */
+.flow-node {
+  transition: opacity var(--dur-base) var(--ease);
+}
+
+.flow-connector {
+  stroke-dasharray: 30;
+  animation: flowDown 2s var(--ease) infinite;
+}
+
+/* ============================================================
+   Subject card interaction
+   ============================================================ */
+.subject-card {
+  transition:
+    border-color var(--dur-base) var(--ease),
+    background var(--dur-base) var(--ease),
+    transform var(--dur-fast) var(--ease);
+  will-change: transform;
+}
+
+.subject-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.subject-card:active:not(:disabled) {
+  transform: translateY(0px);
+}
+
+/* ============================================================
+   Concept DAG state colors (CSS custom properties for tokens)
+   ============================================================ */
+.state-gap       { color: var(--gap); }
+.state-practicing{ color: var(--practicing); }
+.state-mastered  { color: var(--mastered); }
+
+.bg-gap          { background-color: color-mix(in srgb, var(--gap) 15%, transparent); }
+.bg-practicing   { background-color: color-mix(in srgb, var(--practicing) 15%, transparent); }
+.bg-mastered     { background-color: color-mix(in srgb, var(--mastered) 15%, transparent); }
+
+.border-gap      { border-color: color-mix(in srgb, var(--gap) 35%, transparent); }
+.border-practicing{ border-color: color-mix(in srgb, var(--practicing) 35%, transparent); }
+.border-mastered { border-color: color-mix(in srgb, var(--mastered) 35%, transparent); }
+
+/* ============================================================
+   Nav
+   ============================================================ */
+.learnly-nav {
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  background: rgba(13,12,11,0.88);
+  border-bottom: 1px solid var(--border-subtle);
+}
